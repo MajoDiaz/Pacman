@@ -11,9 +11,9 @@ Exercises
 """
 #A01701879 María José Díaz Sánchez
 #A00829556 Santiago Gonzalez Irigoyen
-#Este código es un juego de pacman 
+#Este código es un juego de pacman
 
-from random import choice
+from random import choice, randint
 from turtle import *
 from freegames import floor, vector
 
@@ -24,13 +24,13 @@ aim = vector(5, 0)
 pacman = vector(-40, -80)
 #con la variable ghost se generan los vectores para los fantasmas
 ghosts = [
-    [vector(-180, 160), vector(5, 0)],
-    [vector(-180, -160), vector(0, 5)],
-    [vector(100, 160), vector(0, -5)],
-    [vector(100, -160), vector(-5, 0)],
+    [vector(-180, 160), vector(5, 0), 'right', 'red'],
+    [vector(-180, -160), vector(0, 5), 'up', 'orange'],
+    [vector(100, 160), vector(0, -5), 'down', 'cyan'],
+    [vector(100, -160), vector(-5, 0), 'left', 'pink'],
 ]
-'''En tiles es donde se constuyre básicamente el laberinto, 
-los 0 son el espacio en negro y los 1 son el camino diseñado. 
+'''En tiles es donde se constuyre básicamente el laberinto,
+los 0 son el espacio en negro y los 1 son el camino diseñado.
 Si se modifican los 1 y 0 se crea un nuevo tablero'''
 
 tiles = [
@@ -102,14 +102,15 @@ def world():
     #en este caso el fondo es negro
     #y el camino es azul
     bgcolor('black')
-    path.color('blue')
+    path.color('white')
+    colors = ['cyan', 'red', 'light green', 'orange']
 
     for index in range(len(tiles)):
-    '''Esta funcion checa cuales de la lista son 1 y cuales
-    0 para construir el laberinto. Se verifica que sean mayores
-    a 0, para despues mandar ese vector [x,y] a la función
-    square, la cual va a ir creando los cuadrado de cada posición.
-    Si el valor de ese index del tile es 0, este se quedara en negro'''
+        '''Esta funcion checa cuales de la lista son 1 y cuales
+        0 para construir el laberinto. Se verifica que sean mayores
+        a 0, para despues mandar ese vector [x,y] a la función
+        square, la cual va a ir creando los cuadrado de cada posición.
+        Si el valor de ese index del tile es 0, este se quedara en negro'''
         tile = tiles[index]
 
         if tile > 0:
@@ -120,7 +121,7 @@ def world():
             if tile == 1:
                 path.up()
                 path.goto(x + 10, y + 10)
-                path.dot(2, 'white')
+                path.dot(2, colors[randint(0,3)])
 
 def move():
     "Move pacman and all ghosts."
@@ -148,11 +149,41 @@ def move():
 
     up()
     goto(pacman.x + 10, pacman.y + 10)
-    dot(20, 'yellow')
+    dot(20, 'yellow2')
 
-    for point, course in ghosts:
+    for point, course, history, id in ghosts:
         if valid(point + course):
             point.move(course)
+        #Si se encuentra con una pared el fantasma, busca si está
+        #a la izquierda, abajo, a la derecha o arriba de pacman
+        #y entonces se mueve en dirección suya.
+        #Se intercalaron los pares de moviminetos por eje para prevenir
+        #que los fantasmas se atoren llendo de lado a lado. Si no se puede
+        #ir en estas direcciones 'inteligentes', los fantasmas deciden al
+        #azar de las direcciones posibles. De esta forma manejamos
+        #posibles errores de lógica. History recuerda cual fue la última
+        #dirección del fantasma y trata de evitar repeticiones.
+        elif pacman.x > point.x and valid(point + vector(5,0)) and history != 'right':
+            course.x = 5
+            course.y = 0
+            history = 'right'
+            #con este print se mandan los cambios de dirección a la terminal
+            print(str(id), 'change')
+        elif pacman.y > point.y and valid(point + vector(0,5)) and history != 'up':
+            course.x = 0
+            course.y = 5
+            history = 'up'
+            print(str(id), 'change')
+        elif pacman.x < point.x and valid(point + vector(-5,0)) and history != 'left':
+            course.x = -5
+            course.y = 0
+            history = 'left'
+            print(str(id), 'change')
+        elif pacman.y < point.y and valid(point + vector(0,-5)) and history != 'down':
+            course.x = 0
+            course.y = -5
+            history = 'down'
+            print(str(id), 'change')
         else:
             options = [
                 vector(5, 0),
@@ -161,25 +192,35 @@ def move():
                 vector(0, -5),
             ]
             plan = choice(options)
+            if plan == vector(5,0):
+                history = 'right'
+            if plan == vector(0,5):
+                history = 'up'
+            if plan == vector(-5,0):
+                history = 'left'
+            if plan == vector(0,-5):
+                history = 'down'
             course.x = plan.x
             course.y = plan.y
 
         up()
         goto(point.x + 10, point.y + 10)
-        dot(20, 'red')
+        dot(20, id)
 
     update()
 
-    for point, course in ghosts:
+    for point, course, history, id in ghosts:
         if abs(pacman - point) < 20:
             return
 
     '''Ontimer pone la velocidad del juego
     entre mayor sea el valor que se le meta
-    mas tiempor se tomarán en moverse, entre 
+    mas tiempor se tomarán en moverse, entre
     menor sea el valor más rápido se mueven'''
-    
-    ontimer(move, 100)
+
+    '''En este caso se cambio el valor de 100
+    a 30, para que se movieran más rápido'''
+    ontimer(move, 30)
 
 def change(x, y):
     "Change pacman aim if valid."
