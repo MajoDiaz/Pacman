@@ -29,8 +29,8 @@ ghosts = [
     [vector(100, 160), vector(0, -5), 'down', 'cyan'],
     [vector(100, -160), vector(-5, 0), 'left', 'pink'],
 ]
-'''En tiles es donde se constuyre básicamente el laberinto, 
-los 0 son el espacio en negro y los 1 son el camino diseñado. 
+'''En tiles es donde se constuyre básicamente el laberinto,
+los 0 son el espacio en negro y los 1 son el camino diseñado.
 Si se modifican los 1 y 0 se crea un nuevo tablero'''
 
 tiles = [
@@ -102,11 +102,11 @@ def world():
     colors = ['cyan', 'red', 'light green', 'orange']
 
     for index in range(len(tiles)):
-    '''Esta funcion checa cuales de la lista son 1 y cuales
-    0 para construir el laberinto. Se verifica que sean mayores
-    a 0, para despues mandar ese vector [x,y] a la función
-    square, la cual va a ir creando los cuadrado de cada posición.
-    Si el valor de ese index del tile es 0, este se quedara en negro'''
+        '''Esta funcion checa cuales de la lista son 1 y cuales
+        0 para construir el laberinto. Se verifica que sean mayores
+        a 0, para despues mandar ese vector [x,y] a la función
+        square, la cual va a ir creando los cuadrado de cada posición.
+        Si el valor de ese index del tile es 0, este se quedara en negro'''
         tile = tiles[index]
 
         if tile > 0:
@@ -158,8 +158,8 @@ def move():
             course.x = 5
             course.y = 0
             history = 'right'
-            print(str(id), 'change') #así se puede ver en la terminal un
-            #record de los cambio de memoria del fantasma
+            #con este print se mandan los cambios de dirección a la terminal
+            print(str(id), 'change')
         elif pacman.y > point.y and valid(point + vector(0,5)) and history != 'up':
             course.x = 0
             course.y = 5
