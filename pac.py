@@ -29,6 +29,10 @@ ghosts = [
     [vector(100, 160), vector(0, -5), 'down', 'cyan'],
     [vector(100, -160), vector(-5, 0), 'left', 'pink'],
 ]
+'''En tiles es donde se constuyre básicamente el laberinto, 
+los 0 son el espacio en negro y los 1 son el camino diseñado. 
+Si se modifican los 1 y 0 se crea un nuevo tablero'''
+
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
@@ -54,6 +58,8 @@ tiles = [
 
 def square(x, y):
     "Draw square using path at (x, y)."
+    '''Esta función usa las coordenadas creadas en la función
+    world, para crear el cuadrado de los caminos'''
     path.up()
     path.goto(x, y)
     path.down()
@@ -96,6 +102,11 @@ def world():
     colors = ['cyan', 'red', 'light green', 'orange']
 
     for index in range(len(tiles)):
+    '''Esta funcion checa cuales de la lista son 1 y cuales
+    0 para construir el laberinto. Se verifica que sean mayores
+    a 0, para despues mandar ese vector [x,y] a la función
+    square, la cual va a ir creando los cuadrado de cada posición.
+    Si el valor de ese index del tile es 0, este se quedara en negro'''
         tile = tiles[index]
 
         if tile > 0:
