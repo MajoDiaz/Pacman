@@ -23,15 +23,21 @@ writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
 #con la variable ghost se generan los vectores para los fantasmas
+#se cambio también el color de cada fantasma para distingurilos
 ghosts = [
     [vector(-180, 160), vector(5, 0), 'right', 'red'],
     [vector(-180, -160), vector(0, 5), 'up', 'orange'],
     [vector(100, 160), vector(0, -5), 'down', 'cyan'],
     [vector(100, -160), vector(-5, 0), 'left', 'pink']
 ]
+'''En tiles es donde se constuyre básicamente el laberinto,
+los 0 son el espacio en negro y los 1 son el camino diseñado.
+Si se modifican los 1 y 0 se crea un nuevo tablero'''
+
 '''Se modificaron los valores de tiles para crear un tabero modificado
 esto se hizo cambiando algunos valores por 0 o por 1 según convenga para
 el diseño del nuevo tablero'''
+
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
@@ -55,7 +61,6 @@ tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ]
 
-
 def square(x, y):
     "Draw square using path at (x, y)."
     '''Esta función usa las coordenadas creadas en la función
@@ -73,6 +78,8 @@ def square(x, y):
 
 def offset(point):
     "Return offset of point in tiles."
+    '''Esta función tambien ayuda a la funcion move
+    creando un idex que es usado en los if de esa función'''
     x = (floor(point.x, 20) + 200) / 20
     y = (180 - floor(point.y, 20)) / 20
     index = int(x + y * 20)
@@ -80,6 +87,8 @@ def offset(point):
 
 def valid(point):
     "Return True if point is valid in tiles."
+    '''Esta función ayuda a ver si el punto es valido
+    para el pacman, regresa su valor a la función move'''
     index = offset(point)
 
     if tiles[index] == 0:
@@ -99,6 +108,7 @@ def world():
     #y el camino es azul
     bgcolor('black')
     path.color('white')
+    #colors define los colores diferentes para los puntos
     colors = ['cyan', 'red', 'light green', 'orange']
 
     for index in range(len(tiles)):
@@ -117,10 +127,16 @@ def world():
             if tile == 1:
                 path.up()
                 path.goto(x + 10, y + 10)
+                #crea los distintos puntos con colores al azar
                 path.dot(2, colors[randint(0,3)])
 
 def move():
     "Move pacman and all ghosts."
+    '''La función moce es la que ayuda a mover a todos
+    los personajes, checa si topan con un recuadro negro,
+    si hay puntos en donde estan caminando y se apoya de otras
+    funciones como valid y offset'''
+
     writer.undo()
     writer.write(state['score'])
 
@@ -182,6 +198,9 @@ def move():
                 vector(0, 5),
                 vector(0, -5),
             ]
+            '''aqui están las distintas formas
+            en las que se mueven los fantasmas
+            si no ven a pacman'''
             plan = choice(options)
             if plan == vector(5,0):
                 history = 'right'
