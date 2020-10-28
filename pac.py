@@ -24,10 +24,10 @@ aim = vector(5, 0)
 pacman = vector(-40, -80)
 #con la variable ghost se generan los vectores para los fantasmas
 ghosts = [
-    [vector(-180, 160), vector(5, 0)],
-    [vector(-180, -160), vector(0, 5)],
-    [vector(100, 160), vector(0, -5)],
-    [vector(100, -160), vector(-5, 0)],
+    [vector(-180, 160), vector(5, 0), 'right', 'red'],
+    [vector(-180, -160), vector(0, 5), 'up', 'orange'],
+    [vector(100, 160), vector(0, -5), 'down', 'cyan'],
+    [vector(100, -160), vector(-5, 0), 'left', 'pink'],
 ]
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -93,7 +93,7 @@ def world():
     #y el camino es azul
     bgcolor('black')
     path.color('white')
-    colors = ['blue', 'red', 'yellow', 'light green']
+    colors = ['cyan', 'red', 'light green', 'orange']
 
     for index in range(len(tiles)):
         tile = tiles[index]
@@ -129,9 +129,9 @@ def move():
 
     up()
     goto(pacman.x + 10, pacman.y + 10)
-    dot(20, 'yellow')
+    dot(20, 'yellow2')
 
-    for point, course in ghosts:
+    for point, course, history, id in ghosts:
         if valid(point + course):
             point.move(course)
         #Si se encuentra con una pared el fantasma, busca si está
@@ -141,19 +141,29 @@ def move():
         #que los fantasmas se atoren llendo de lado a lado. Si no se puede
         #ir en estas direcciones 'inteligentes', los fantasmas deciden al
         #azar de las direcciones posibles. De esta forma manejamos
-        #posibles errores de lógica
-        elif pacman.x > point.x and valid(point + vector(5,0)):
+        #posibles errores de lógica. History recuerda cual fue la última
+        #dirección del fantasma y trata de evitar repeticiones.
+        elif pacman.x > point.x and valid(point + vector(5,0)) and history != 'right':
             course.x = 5
             course.y = 0
-        elif pacman.y > point.y and valid(point + vector(0,5)):
+            history = 'right'
+            print(str(id), 'change') #así se puede ver en la terminal un
+            #record de los cambio de memoria del fantasma
+        elif pacman.y > point.y and valid(point + vector(0,5)) and history != 'up':
             course.x = 0
             course.y = 5
-        elif pacman.x < point.x and valid(point + vector(-5,0)):
+            history = 'up'
+            print(str(id), 'change')
+        elif pacman.x < point.x and valid(point + vector(-5,0)) and history != 'left':
             course.x = -5
             course.y = 0
-        elif pacman.y < point.y and valid(point + vector(0,-5)):
+            history = 'left'
+            print(str(id), 'change')
+        elif pacman.y < point.y and valid(point + vector(0,-5)) and history != 'down':
             course.x = 0
             course.y = -5
+            history = 'down'
+            print(str(id), 'change')
         else:
             options = [
                 vector(5, 0),
@@ -162,16 +172,24 @@ def move():
                 vector(0, -5),
             ]
             plan = choice(options)
+            if plan == vector(5,0):
+                history = 'right'
+            if plan == vector(0,5):
+                history = 'up'
+            if plan == vector(-5,0):
+                history = 'left'
+            if plan == vector(0,-5):
+                history = 'down'
             course.x = plan.x
             course.y = plan.y
 
         up()
         goto(point.x + 10, point.y + 10)
-        dot(20, 'red')
+        dot(20, id)
 
     update()
 
-    for point, course in ghosts:
+    for point, course, history, id in ghosts:
         if abs(pacman - point) < 20:
             return
 
@@ -183,12 +201,6 @@ def move():
     '''En este caso se cambio el valor de 100
     a 30, para que se movieran más rápido'''
     ontimer(move, 30)
-    if randint(0,1) == 1:
-        bgcolor('black')
-        path.color('white')
-    else:
-        bgcolor('white')
-        path.color('black')
 
 def change(x, y):
     "Change pacman aim if valid."
