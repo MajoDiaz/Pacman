@@ -11,9 +11,9 @@ Exercises
 """
 #A01701879 María José Díaz Sánchez
 #A00829556 Santiago Gonzalez Irigoyen
-#Este código es un juego de pacman 
+#Este código es un juego de pacman
 
-from random import choice
+from random import choice, randint
 from turtle import *
 from freegames import floor, vector
 
@@ -92,7 +92,8 @@ def world():
     #en este caso el fondo es negro
     #y el camino es azul
     bgcolor('black')
-    path.color('blue')
+    path.color('white')
+    colors = ['blue', 'red', 'yellow', 'light green']
 
     for index in range(len(tiles)):
         tile = tiles[index]
@@ -105,7 +106,7 @@ def world():
             if tile == 1:
                 path.up()
                 path.goto(x + 10, y + 10)
-                path.dot(2, 'white')
+                path.dot(2, colors[randint(0,3)])
 
 def move():
     "Move pacman and all ghosts."
@@ -176,12 +177,18 @@ def move():
 
     '''Ontimer pone la velocidad del juego
     entre mayor sea el valor que se le meta
-    mas tiempor se tomarán en moverse, entre 
+    mas tiempor se tomarán en moverse, entre
     menor sea el valor más rápido se mueven'''
-    
+
     '''En este caso se cambio el valor de 100
     a 30, para que se movieran más rápido'''
     ontimer(move, 30)
+    if randint(0,1) == 1:
+        bgcolor('black')
+        path.color('white')
+    else:
+        bgcolor('white')
+        path.color('black')
 
 def change(x, y):
     "Change pacman aim if valid."
