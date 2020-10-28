@@ -22,6 +22,7 @@ path = Turtle(visible=False)
 writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
+
 #con la variable ghost se generan los vectores para los fantasmas
 #se cambio también el color de cada fantasma para distingurilos
 ghosts = [
@@ -231,6 +232,11 @@ def move():
     '''En este caso se cambio el valor de 100
     a 35, para que se movieran más rápido'''
     ontimer(move, 35)
+
+    if randint(0,1) == 1:
+        bgcolor('black')
+    else:
+        bgcolor('white')
 
 def change(x, y):
     "Change pacman aim if valid."
