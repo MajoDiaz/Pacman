@@ -27,34 +27,34 @@ ghosts = [
     [vector(-180, 160), vector(5, 0), 'right', 'red'],
     [vector(-180, -160), vector(0, 5), 'up', 'orange'],
     [vector(100, 160), vector(0, -5), 'down', 'cyan'],
-    [vector(100, -160), vector(-5, 0), 'left', 'pink'],
+    [vector(100, -160), vector(-5, 0), 'left', 'pink']
 ]
-'''En tiles es donde se constuyre básicamente el laberinto,
-los 0 son el espacio en negro y los 1 son el camino diseñado.
-Si se modifican los 1 y 0 se crea un nuevo tablero'''
-
+'''Se modificaron los valores de tiles para crear un tabero modificado
+esto se hizo cambiando algunos valores por 0 o por 1 según convenga para
+el diseño del nuevo tablero'''
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-    0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-    0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
-    0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
-    0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
-    0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+    0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-    0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
-    0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
-    0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
-    0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0,
-    0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0,
-    0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
     0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 0,
+    0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 0,
+    0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
     0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ]
+
 
 def square(x, y):
     "Draw square using path at (x, y)."
@@ -159,22 +159,22 @@ def move():
             course.y = 0
             history = 'right'
             #con este print se mandan los cambios de dirección a la terminal
-            print(str(id), 'change')
+            #print(str(id), 'change')
         elif pacman.y > point.y and valid(point + vector(0,5)) and history != 'up':
             course.x = 0
             course.y = 5
             history = 'up'
-            print(str(id), 'change')
+            #print(str(id), 'change')
         elif pacman.x < point.x and valid(point + vector(-5,0)) and history != 'left':
             course.x = -5
             course.y = 0
             history = 'left'
-            print(str(id), 'change')
+            #print(str(id), 'change')
         elif pacman.y < point.y and valid(point + vector(0,-5)) and history != 'down':
             course.x = 0
             course.y = -5
             history = 'down'
-            print(str(id), 'change')
+            #print(str(id), 'change')
         else:
             options = [
                 vector(5, 0),
@@ -210,8 +210,8 @@ def move():
     menor sea el valor más rápido se mueven'''
 
     '''En este caso se cambio el valor de 100
-    a 30, para que se movieran más rápido'''
-    ontimer(move, 30)
+    a 35, para que se movieran más rápido'''
+    ontimer(move, 35)
 
 def change(x, y):
     "Change pacman aim if valid."
