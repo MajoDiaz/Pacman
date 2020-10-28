@@ -126,6 +126,26 @@ def move():
     for point, course in ghosts:
         if valid(point + course):
             point.move(course)
+        #Si se encuentra con una pared el fantasma, busca si está
+        #a la izquierda, abajo, a la derecha o arriba de pacman
+        #y entonces se mueve en dirección suya.
+        #Se intercalaron los pares de moviminetos por eje para prevenir
+        #que los fantasmas se atoren llendo de lado a lado. Si no se puede
+        #ir en estas direcciones 'inteligentes', los fantasmas deciden al
+        #azar de las direcciones posibles. De esta forma manejamos
+        #posibles errores de lógica
+        elif pacman.x > point.x and valid(point + vector(5,0)):
+            course.x = 5
+            course.y = 0
+        elif pacman.y > point.y and valid(point + vector(0,5)):
+            course.x = 0
+            course.y = 5
+        elif pacman.x < point.x and valid(point + vector(-5,0)):
+            course.x = -5
+            course.y = 0
+        elif pacman.y < point.y and valid(point + vector(0,-5)):
+            course.x = 0
+            course.y = -5
         else:
             options = [
                 vector(5, 0),
