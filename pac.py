@@ -23,6 +23,7 @@ writer = Turtle(visible=False)
 aim = vector(5, 0)
 pacman = vector(-40, -80)
 #con la variable ghost se generan los vectores para los fantasmas
+#se cambio también el color de cada fantasma para distingurilos
 ghosts = [
     [vector(-180, 160), vector(5, 0), 'right', 'red'],
     [vector(-180, -160), vector(0, 5), 'up', 'orange'],
@@ -107,6 +108,7 @@ def world():
     #y el camino es azul
     bgcolor('black')
     path.color('white')
+    #colors define los colores diferentes para los puntos
     colors = ['cyan', 'red', 'light green', 'orange']
 
     for index in range(len(tiles)):
@@ -125,6 +127,7 @@ def world():
             if tile == 1:
                 path.up()
                 path.goto(x + 10, y + 10)
+                #crea los distintos puntos con colores al azar
                 path.dot(2, colors[randint(0,3)])
 
 def move():
@@ -195,6 +198,9 @@ def move():
                 vector(0, 5),
                 vector(0, -5),
             ]
+            '''aqui están las distintas formas 
+            en las que se mueven los fantasmas
+            si no ven a pacman'''
             plan = choice(options)
             if plan == vector(5,0):
                 history = 'right'
