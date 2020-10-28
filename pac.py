@@ -159,7 +159,9 @@ def move():
     mas tiempor se tomarán en moverse, entre 
     menor sea el valor más rápido se mueven'''
     
-    ontimer(move, 100)
+    '''En este caso se cambio el valor de 100
+    a 30, para que se movieran más rápido'''
+    ontimer(move, 30)
 
 def change(x, y):
     "Change pacman aim if valid."
