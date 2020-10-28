@@ -73,6 +73,8 @@ def square(x, y):
 
 def offset(point):
     "Return offset of point in tiles."
+    '''Esta función tambien ayuda a la funcion move
+    creando un idex que es usado en los if de esa función'''
     x = (floor(point.x, 20) + 200) / 20
     y = (180 - floor(point.y, 20)) / 20
     index = int(x + y * 20)
@@ -80,6 +82,8 @@ def offset(point):
 
 def valid(point):
     "Return True if point is valid in tiles."
+    '''Esta función ayuda a ver si el punto es valido
+    para el pacman, regresa su valor a la función move'''
     index = offset(point)
 
     if tiles[index] == 0:
@@ -120,6 +124,11 @@ def world():
 
 def move():
     "Move pacman and all ghosts."
+    '''La función moce es la que ayuda a mover a todos
+    los personajes, checa si topan con un recuadro negro, 
+    si hay puntos en donde estan caminando y se apoya de otras
+    funciones como valid y offset'''
+    
     writer.undo()
     writer.write(state['score'])
 
